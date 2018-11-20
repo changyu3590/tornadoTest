@@ -48,4 +48,4 @@ class Manager():
             print ('[%s]模组创建完毕！'%name)
 
 if __name__ == '__main__':
-    Manager().createMoudle('student')
+    Manager().createMoudle('test')

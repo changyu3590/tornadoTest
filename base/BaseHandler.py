@@ -8,13 +8,9 @@ from base.Async import async
 
 
 class BaseHandler(web.RequestHandler):
+
     def write_error(self, status_code, **kwargs):
-        if status_code == '404':
-            pass
-        elif status_code == '500':
-            pass
-        else:
-            super(BaseHandler).write(status_code, **kwargs)
+        super(BaseHandler).write_error(status_code, **kwargs)
 
     def prepare(self):
         print('*IP:%s\n*URI:%s\n*METHOD:%s' % (
@@ -37,7 +33,7 @@ class BaseHandler(web.RequestHandler):
     @tornado.gen.coroutine
     def post(self, *args):
         try:
-            yield async.cmd(self._get, *args)
+            yield async.cmd(self._post, *args)
         except ValueError as e:
             print(traceback.format_exc())
             self.execpt(e.message)
@@ -50,7 +46,7 @@ class BaseHandler(web.RequestHandler):
     @tornado.gen.coroutine
     def put(self, *args):
         try:
-            yield async.cmd(self._get, *args)
+            yield async.cmd(self._put, *args)
         except ValueError as e:
             print(traceback.format_exc())
             self.execpt(e.message)
@@ -63,7 +59,7 @@ class BaseHandler(web.RequestHandler):
     @tornado.gen.coroutine
     def delete(self, *args):
         try:
-            yield async.cmd(self._get, *args)
+            yield async.cmd(self._delete, *args)
         except ValueError as e:
             print(traceback.format_exc())
             self.execpt(e.message)
@@ -82,6 +78,7 @@ class BaseHandler(web.RequestHandler):
             'sub_msg': message
         }
         self.finish(res)
+        return
 
     def httpResponse(self, message):
         res = {
@@ -93,4 +90,17 @@ class BaseHandler(web.RequestHandler):
             'return_result': message
         }
         self.finish(res)
+        return
+
+    def _get(self, *args):
+        raise NotImplementedError(u"暂无此操作")
+
+    def _put(self, *args):
+        raise NotImplementedError(u"暂无此操作")
+
+    def _delete(self, *args):
+        raise NotImplementedError(u"暂无此操作")
+
+    def _post(self, *args):
+        raise NotImplementedError(u"暂无此操作")
 

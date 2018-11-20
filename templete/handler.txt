@@ -27,5 +27,5 @@ class {appName}Handler(BaseHandler):
         pass
 
 handler=[
-    (r'/*',{appName}Handler)
+    (r'/{appName}/*',{appName}Handler)
 ]

@@ -5,11 +5,9 @@ import os
 import sys
 import tornado
 from tornado import concurrent
-
 from libs.apsCron import get_scheduler
 from libs.confUtil import config
-
-port=str(config('system','port')).split(',')
+port=int(config('system','port'))
 
 def autoLoad():
     try:
@@ -26,21 +24,22 @@ def autoLoad():
     except Exception as e:
         raise ValueError('路由加载失败')
 
-def main(port=None):
+def run_main():
     urls=autoLoad()
     app = tornado.web.Application(handlers=urls)
     app.listen(port)
     tornado.ioloop.IOLoop.current().start()
 
 def cronJob():
-    '''定时检查待支付订单'''
+    '示例'
     schedule = get_scheduler()
     #schedule.add_job(cron_query, 'interval', seconds=60)
     #schedule.start()
 
+
+
 if __name__ == "__main__":
-    workers=len(port)
+    workers=3
     with concurrent.futures.ProcessPoolExecutor(max_workers=workers) as executor:
-        for _p in port:
-            executor.submit(main,int(_p))
-        executor.submit(cronJob())
+
+        run_main()

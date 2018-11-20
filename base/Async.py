@@ -7,7 +7,7 @@ from tornado.concurrent import run_on_executor
 class Async():
     def __init__(self):
         # self.io_loop = IOLoop.current()
-        self.executor = ThreadPoolExecutor(max_workers=10)
+        self.executor = ThreadPoolExecutor(max_workers=100)
 
     @run_on_executor
     def cmd(self,func,*args,**kwargs):
